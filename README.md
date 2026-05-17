@@ -135,48 +135,48 @@ Each criterion is scored `true`/`false` (or a qualitative assessment for clarity
    ```
 3. The evaluation results are used to iteratively improve prompts — weak criteria (e.g., missing fallbacks) become targets for the next revision.
 
-### Evaluation of Current Prompts
+### Evaluation of Current Prompts (Prompt Content Only)
+
+The following evaluations consider **only the text within the prompt files themselves** — no assumptions are made about how the surrounding code (`agent.py`) enforces additional structure.
+
+The prompts were recently updated to satisfy **all 9 criteria** in the rubric. Below is the evaluation against the current versions.
 
 #### Agent Alpha (`sys_agent_alpha.txt`)
 
-| Criterion | Score | Justification |
-|-----------|-------|---------------|
-| Explicit Reasoning | ✅ | "Reason step by step and think before you answer" — explicitly instructed. |
-| Structured Output | ✅ | The agent responds in a strict JSON Event schema enforced by `_system_prompt()` in `agent.py`. |
-| Tool Separation | ✅ | Reasoning (Phase 1) is fully separated from tool calls (Phase 2) and synthesis (Phase 3). |
-| Conversation Loop | ✅ | Each turn passes opponent's argument and maintains agent history across turns. |
-| Instructional Framing | ✅ | The prompt defines a clear debate strategy (opening, evidence, rebuttal, escalation). |
-| Internal Self-Checks | ✅ | "Always self-verify the answers before responding" and "Make sure there is no contradiction." |
-| Reasoning Type Awareness | ✅ | Explicitly requires tagging each step with `Reasoning Type: [Logic \| Calculation \| Lookup \| Assumption]` plus Explanation and Confidence Score. |
-| Error Handling / Fallbacks | ⚠️ Partial | "If you don't have enough evidence from the tool then use your reasoning skills" is a partial fallback, but there's no handling for tool failures or API errors. |
-| Overall Clarity | Strong | Well-structured with clear role, strategy, tool usage rules, surrender conditions, and tone. Concise at 38 lines. |
+| # | Criterion | Score | Justification |
+|---|-----------|-------|---------------|
+| 1 | Explicit Reasoning | ✅ | "Reason step by step and think before you answer" — explicitly instructed. |
+| 2 | Structured Output | ✅ | "## Response Format" section defines the Event JSON schema fields (`argument`, `tool_calls`, `tool_results`, `surrender`) and tells the model the exact JSON schema will follow. |
+| 3 | Tool Separation | ✅ | "## Three-Phase Workflow" cleanly separates into Phase 1 (Think), Phase 2 (Call Tools), Phase 3 (Synthesise) with distinct instructions for each. |
+| 4 | Conversation Loop | ✅ | "You are in a multi-turn debate. Each turn you will receive the opponent's last argument. Respond accordingly with your rebuttal." — explicitly stated in ## Your Role. |
+| 5 | Instructional Framing | ✅ | "## Response Format" provides example structure for `agent_thought` ("Reasoning Type: Logic\nExplanation: ...\nConfidence Score: 0.85") and defines payload field descriptions. |
+| 6 | Internal Self-Checks | ✅ | "Always self verify the answers before responding" and "Make sure there is no contradiction in your answer" plus Phase 3: "Ensure no contradictions between your reasoning and tool results." |
+| 7 | Reasoning Type Awareness | ✅ | Requires tagging each step with `Reasoning Type: [Logic \| Calculation \| Lookup \| Assumption]`, Explanation, and Confidence Score (0.0 to 1.0). |
+| 8 | Error Handling / Fallbacks | ✅ | Covers: tool failure ("If a tool call fails, returns an error, times out, or returns empty results, note the failure... proceed using logical reasoning alone"), low confidence ("If your Confidence Score is below 0.5, flag it as uncertain reasoning"), and insufficient evidence ("If you dont have enough evidence from the tool then use your reasoning skills"). |
+| 9 | Overall Clarity | Strong | Well-organised with Role, Three-Phase Workflow, Debate Strategy, Tool Usage, Response Format, Surrender Condition, and Tone sections. 78 lines, comprehensive but scannable. |
 
 #### Agent Beta (`sys_agent_beta.txt`)
 
-| Criterion | Score | Justification |
-|-----------|-------|---------------|
-| Explicit Reasoning | ✅ | "Reason step by step and think before you answer" — identical instruction. |
-| Structured Output | ✅ | Same JSON Event schema enforced. |
-| Tool Separation | ✅ | Same three-phase architecture (think → tools → synthesise). |
-| Conversation Loop | ✅ | Same history mechanism across turns. |
-| Instructional Framing | ✅ | Clear CON-side strategy: challenge assumptions, expose fallacies, highlight risks. |
-| Internal Self-Checks | ✅ | "Always self-verify" and "Make sure there is no contradiction." |
-| Reasoning Type Awareness | ✅ | Tagging with Reasoning Type, Explanation, and Confidence Score. |
-| Error Handling / Fallbacks | ⚠️ Partial | Same partial fallback as Alpha ("If you don't have enough evidence… use reasoning skills"). |
-| Overall Clarity | Strong | Mirror structure to Alpha but tuned for CON-side argumentation. Slightly longer at 39 lines but equally clear. |
+| # | Criterion | Score | Justification |
+|---|-----------|-------|---------------|
+| 1 | Explicit Reasoning | ✅ | "Reason step by step and think before you answer" — identical instruction. |
+| 2 | Structured Output | ✅ | Same "## Response Format" section with JSON schema fields and example thought structure. |
+| 3 | Tool Separation | ✅ | Same "## Three-Phase Workflow" (Think → Call Tools → Synthesise). |
+| 4 | Conversation Loop | ✅ | Same multi-turn debate instruction in ## Your Role. |
+| 5 | Instructional Framing | ✅ | Provides example thought structure and explains payload field requirements. |
+| 6 | Internal Self-Checks | ✅ | "Always self verify" and contradiction check in Phase 3. |
+| 7 | Reasoning Type Awareness | ✅ | Same reasoning type tagging with Confidence Score (0.0 to 1.0). |
+| 8 | Error Handling / Fallbacks | ✅ | Same coverage: tool failure fallback, low-confidence flagging (below 0.5), insufficient evidence fallback. |
+| 9 | Overall Clarity | Strong | Mirror structure to Alpha, tuned for CON-side argumentation. 80 lines, equally clear. |
 
-### Key Strengths
+### Key Strengths (After Update)
 
-- **Reasoning type tagging** forces agents to explicitly identify *how* they arrived at each conclusion, making the thought process transparent.
-- **Confidence scoring** adds a self-aware dimension — the model must assess its own certainty at each step.
-- **Three-phase architecture** cleanly separates thinking from tool use from synthesis, preventing tool calls from polluting reasoning.
-- **Surrender conditions** are formalised with high bars ("irrefutable, source-backed evidence") to avoid premature surrender.
-
-### Areas for Improvement
-
-1. **Tool failure fallbacks** — Neither prompt specifies what to do if `web_search` or `fetch_url` returns an error, times out, or returns empty results. Adding a fallback such as *"If a tool call fails or returns no results, note the failure and proceed with logical reasoning alone"* would improve robustness.
-2. **Uncertainty handling** — The prompts could benefit from an explicit instruction for low-confidence scenarios, e.g., *"If your Confidence Score is below 0.5, present the argument as a hypothesis rather than a fact."*
-3. **Contradiction resolution** — While the prompts say "no contradiction," they don't specify how to resolve contradictions between tool evidence and prior reasoning. A resolution strategy (e.g., *"If tool evidence contradicts your earlier reasoning, acknowledge the contradiction and revise your argument"*) would help.
+- **All 9 rubric criteria satisfied** — Both prompts now pass every evaluation criterion from `sys_prompt_evaluation.md`.
+- **Three-Phase Workflow** cleanly separates thinking (Phase 1), tool use (Phase 2), and synthesis (Phase 3) into explicit, ordered steps.
+- **Comprehensive error handling** — Tool failures, timeouts, empty results, low-confidence scenarios, and insufficient evidence are all covered with specific fallback instructions.
+- **Conversation loop awareness** — Both prompts explicitly inform the agent it is in a multi-turn debate and will receive the opponent's argument each turn.
+- **Instructional framing with examples** — The `agent_thought` example shows exactly how reasoning tags should be formatted.
+- **Contradiction resolution** — Phase 3 instructs agents to acknowledge and resolve contradictions between tool evidence and prior reasoning.
 
 ### How to Run an Evaluation
 
