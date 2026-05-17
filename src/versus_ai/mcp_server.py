@@ -159,8 +159,19 @@ async def _crawl4ai_fetch(url: str) -> dict:
 
 @mcp.tool()
 def web_search(query: str, max_results: int = 5) -> list[dict]:
-    """Search the web (Tavily primary, DDG fallback). Hard-capped at 5 results. Example: web_search("python asyncio tutorial", 3)."""
+    """Search the web (DDG primary, Tavily fallback). Hard-capped at 5 results. Example: web_search("python asyncio tutorial", 3)."""
     max_results = max(1, min(max_results, MAX_SEARCH_RESULTS))
+    
+    # Try DuckDuckGo first (free)
+    try:
+        results = _ddg_search(query, max_results)
+        if results:
+            _bump("duckduckgo")
+            return results
+    except Exception:
+        _bump("duckduckgo", "errors")
+        
+    # Fallback to Tavily (paid)
     if os.environ.get("TAVILY_API_KEY") and _under_cap("tavily"):
         try:
             results = _tavily_search(query, max_results)
@@ -169,9 +180,8 @@ def web_search(query: str, max_results: int = 5) -> list[dict]:
                 return results
         except Exception:
             _bump("tavily", "errors")
-    results = _ddg_search(query, max_results)
-    _bump("duckduckgo")
-    return results
+            
+    return []
 
 
 @mcp.tool()
