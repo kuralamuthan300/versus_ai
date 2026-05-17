@@ -76,8 +76,8 @@ def _ui_mode() -> None:
         show_error=True,
         css=CSS,
         theme=gr.themes.Base(
-            primary_hue="indigo",
-            neutral_hue="slate",
+            primary_hue="blue",
+            neutral_hue="zinc",
             font=gr.themes.GoogleFont("Inter"),
         ),
     )

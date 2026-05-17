@@ -36,103 +36,124 @@ BETA_COLOR  = "#f43f5e"   # rose
 TOOL_COLOR  = "#0ea5e9"   # sky
 
 CSS = """
+/* ── Global Theme Overrides to FORCE Light Mode ────────────────────────── */
+:root, .dark, body, gradio-app, .gradio-container {
+    --body-background-fill: #ffffff !important;
+    --background-fill-primary: #ffffff !important;
+    --background-fill-secondary: #f8fafc !important;
+    --border-color-primary: #e2e8f0 !important;
+    --border-color-accent: #3b82f6 !important;
+    --body-text-color: #0f172a !important;
+    --body-text-color-subdued: #475569 !important;
+    --block-background-fill: #ffffff !important;
+    --block-label-text-color: #334155 !important;
+    --input-background-fill: #ffffff !important;
+    --input-border-color: #cbd5e1 !important;
+    --button-primary-background-fill: #3b82f6 !important;
+    --button-primary-text-color: #ffffff !important;
+    --button-secondary-background-fill: #f1f5f9 !important;
+    --button-secondary-text-color: #0f172a !important;
+    --color-accent: #3b82f6 !important;
+    --panel-background-fill: #ffffff !important;
+}
+
 /* ── Global ────────────────────────────────────────────────────────────── */
-body, .gradio-container {
-    background: #f8fafc !important;
-    font-family: 'Inter', sans-serif;
-    color: #0f172a;
+body, .gradio-container, .dark {
+    background: var(--body-background-fill) !important;
+    color: var(--body-text-color) !important;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
 }
 h1.title {
     text-align: center;
-    font-size: 2.4rem;
-    font-weight: 800;
-    background: linear-gradient(135deg, #4f46e5 0%, #e11d48 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    margin-bottom: 0.2rem;
+    font-size: 2rem;
+    font-weight: 600;
+    color: #0f172a !important;
+    margin-bottom: 0.5rem;
+    letter-spacing: -0.02em;
 }
 p.subtitle {
     text-align: center;
-    color: #475569;
+    color: #475569 !important;
     font-size: 1rem;
-    margin-bottom: 1.5rem;
+    margin-bottom: 2rem;
 }
 
 /* ── Transcript card ────────────────────────────────────────────────────── */
 .transcript-wrap {
-    background: #ffffff;
-    border: 1px solid #e2e8f0;
-    border-radius: 16px;
+    background: #f8fafc !important;
+    border: 1px solid #e2e8f0 !important;
+    border-radius: 8px;
     padding: 1.5rem;
     min-height: 400px;
-    max-height: 620px;
+    max-height: 650px;
     overflow-y: auto;
     scroll-behavior: smooth;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
 }
 .turn-header {
-    font-size: 0.72rem;
-    font-weight: 700;
-    letter-spacing: 0.12em;
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.05em;
     text-transform: uppercase;
-    color: #94a3b8;
-    margin: 1.4rem 0 0.5rem;
+    color: #64748b !important;
+    margin: 2rem 0 1rem;
+    text-align: center;
 }
 .bubble {
-    border-radius: 14px;
-    padding: 1rem 1.2rem;
-    margin-bottom: 0.6rem;
+    border-radius: 8px;
+    padding: 1.25rem;
+    margin-bottom: 1rem;
     line-height: 1.6;
     font-size: 0.95rem;
-    max-width: 88%;
+    max-width: 85%;
+    background: #ffffff !important;
+    border: 1px solid #e2e8f0 !important;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.02);
+    color: #0f172a !important;
 }
 .bubble-alpha {
-    background: #eff6ff;
-    border-left: 4px solid #3b82f6;
-    color: #1e293b;
+    border-left: 3px solid #3b82f6 !important;
 }
 .bubble-beta {
-    background: #fff1f2;
-    border-left: 4px solid #f43f5e;
-    color: #1e293b;
+    border-left: 3px solid #ef4444 !important;
     margin-left: auto;
 }
 .agent-label {
-    font-size: 0.78rem;
-    font-weight: 700;
-    margin-bottom: 0.35rem;
+    font-size: 0.85rem;
+    font-weight: 600;
+    margin-bottom: 0.75rem;
+    color: #0f172a !important;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
 }
-.label-alpha { color: #2563eb; }
-.label-beta  { color: #e11d48; }
 .thought-block {
-    font-size: 0.8rem;
-    color: #64748b;
-    font-style: italic;
-    margin-bottom: 0.5rem;
-    border-bottom: 1px solid #cbd5e1;
-    padding-bottom: 0.4rem;
+    font-size: 0.875rem;
+    color: #475569 !important;
+    margin-bottom: 1rem;
+    padding-left: 1rem;
+    border-left: 2px solid #cbd5e1 !important;
 }
 .tool-chip {
     display: inline-block;
-    background: #f0f9ff;
-    border: 1px solid #7dd3fc;
-    color: #0369a1;
-    border-radius: 8px;
-    font-size: 0.72rem;
-    font-weight: 600;
-    padding: 2px 10px;
-    margin: 2px 4px 2px 0;
+    background: #f1f5f9 !important;
+    border: 1px solid #cbd5e1 !important;
+    color: #334155 !important;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    font-weight: 500;
+    padding: 2px 8px;
+    margin: 4px 4px 0 0;
 }
 .tool-result-block {
-    background: #f8fafc;
-    border: 1px solid #e2e8f0;
-    border-radius: 8px;
-    padding: 0.6rem 0.8rem;
-    font-size: 0.75rem;
-    color: #334155;
-    font-family: monospace;
-    margin-top: 0.4rem;
-    max-height: 120px;
+    background: #f8fafc !important;
+    border: 1px solid #e2e8f0 !important;
+    border-radius: 6px;
+    padding: 0.75rem 1rem;
+    font-size: 0.8rem;
+    color: #1e293b !important;
+    font-family: 'ui-monospace', 'SFMono-Regular', monospace;
+    margin-top: 0.5rem;
+    max-height: 150px;
     overflow-y: auto;
     white-space: pre-wrap;
     word-break: break-all;
@@ -143,67 +164,64 @@ p.subtitle {
     display: flex;
     align-items: center;
     gap: 0.75rem;
-    background: #ffffff;
-    border: 1px solid #e2e8f0;
-    border-radius: 10px;
-    padding: 0.6rem 1rem;
-    font-size: 0.85rem;
-    color: #475569;
-    margin-bottom: 0.8rem;
-    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05);
+    background: #ffffff !important;
+    border: 1px solid #e2e8f0 !important;
+    border-radius: 6px;
+    padding: 0.75rem 1rem;
+    font-size: 0.875rem;
+    color: #334155 !important;
+    margin-bottom: 1rem;
 }
 .status-dot {
-    width: 10px; height: 10px;
+    width: 8px; height: 8px;
     border-radius: 50%;
-    background: #4f46e5;
-    animation: pulse 1.4s infinite;
+    background: #3b82f6 !important;
+    animation: pulse 1.5s infinite;
 }
-.status-dot.idle   { background: #cbd5e1; animation: none; }
-.status-dot.done   { background: #22c55e; animation: none; }
+.status-dot.idle   { background: #cbd5e1 !important; animation: none; }
+.status-dot.done   { background: #10b981 !important; animation: none; }
 @keyframes pulse {
     0%, 100% { opacity: 1; }
-    50%       { opacity: 0.5; }
+    50%       { opacity: 0.4; }
 }
 
 /* ── Verdict banner ─────────────────────────────────────────────────────── */
 .verdict-banner {
-    background: #ffffff;
-    border: 2px solid #4f46e5;
-    border-radius: 16px;
-    padding: 1.5rem;
+    background: #ffffff !important;
+    border: 1px solid #e2e8f0 !important;
+    border-radius: 8px;
+    padding: 2rem;
     text-align: center;
-    margin-top: 1rem;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+    margin-top: 1.5rem;
 }
-.verdict-banner.alpha-wins { border-color: #3b82f6; background: #eff6ff; }
-.verdict-banner.beta-wins  { border-color: #f43f5e; background: #fff1f2; }
-.verdict-banner.draw       { border-color: #f59e0b; background: #fffbeb; }
+.verdict-banner.alpha-wins { border-top: 4px solid #3b82f6 !important; }
+.verdict-banner.beta-wins  { border-top: 4px solid #ef4444 !important; }
+.verdict-banner.draw       { border-top: 4px solid #10b981 !important; }
 .verdict-title {
-    font-size: 1.8rem;
-    font-weight: 900;
-    margin-bottom: 0.4rem;
-    color: #0f172a;
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: #0f172a !important;
 }
 .verdict-reason {
-    color: #475569;
-    font-size: 0.9rem;
+    color: #475569 !important;
+    font-size: 0.95rem;
 }
 
 /* ── Vote panel ─────────────────────────────────────────────────────────── */
 .vote-panel {
-    background: #ffffff;
-    border: 1px solid #e2e8f0;
-    border-radius: 16px;
-    padding: 1.5rem;
+    background: #ffffff !important;
+    border: 1px solid #e2e8f0 !important;
+    border-radius: 8px;
+    padding: 2rem;
     text-align: center;
-    margin-top: 1rem;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+    margin-top: 1.5rem;
 }
 .vote-title {
-    font-size: 1.2rem;
-    font-weight: 700;
-    color: #0f172a;
-    margin-bottom: 1rem;
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: #0f172a !important;
+    margin-bottom: 1.5rem;
 }
 """
 
@@ -217,7 +235,7 @@ def _esc(s: str) -> str:
 
 
 def _tool_chip(name: str) -> str:
-    return f'<span class="tool-chip">⚙ {_esc(name)}</span>'
+    return f'<span class="tool-chip">{_esc(name)}</span>'
 
 
 def _tool_result_block(result: dict[str, Any] | None) -> str:
@@ -243,7 +261,6 @@ def render_event(evt: Event, show_tools: bool = True) -> str:
     is_alpha = "alpha" in evt.agent_name.lower()
     side_cls = "bubble-alpha" if is_alpha else "bubble-beta"
     label_cls = "label-alpha" if is_alpha else "label-beta"
-    icon = "🔵" if is_alpha else "🔴"
 
     tool_calls: list[dict] = evt.payload.get("tool_calls", [])
     tool_chips_html = "".join(_tool_chip(tc.get("name", "")) for tc in tool_calls)
@@ -252,18 +269,18 @@ def render_event(evt: Event, show_tools: bool = True) -> str:
     thought = _esc(evt.agent_thought or "")
 
     surrender_badge = (
-        '<span style="background:#fbbf24;color:#000;border-radius:6px;'
-        'padding:1px 8px;font-size:0.7rem;font-weight:700;margin-left:8px;">'
-        '⚑ SURRENDERED</span>'
+        '<span style="background:#fef3c7;color:#92400e;border-radius:4px;'
+        'padding:2px 6px;font-size:0.7rem;font-weight:600;margin-left:8px;">'
+        'SURRENDERED</span>'
         if evt.payload.get("surrender") else ""
     )
 
     return (
         f'<div class="bubble {side_cls}">'
-        f'  <div class="agent-label {label_cls}">{icon} {_esc(evt.agent_name)}{surrender_badge}</div>'
-        f'  <div class="thought-block">💭 {thought}</div>'
+        f'  <div class="agent-label {label_cls}">{_esc(evt.agent_name)}{surrender_badge}</div>'
+        f'  <div class="thought-block">{thought}</div>'
         f'  <div>{argument}</div>'
-        f'  {"<div style=margin-top:6px>" + tool_chips_html + "</div>" if tool_chips_html else ""}'
+        f'  {"<div style=margin-top:8px>" + tool_chips_html + "</div>" if tool_chips_html else ""}'
         f'</div>'
     )
 
@@ -273,17 +290,17 @@ def render_verdict(payload: dict[str, Any]) -> str:
     reason = _esc(payload.get("reason", ""))
 
     if winner == "Agent Alpha":
-        css_class, icon, title = "alpha-wins", "🏆", "Agent Alpha Wins!"
+        css_class, title = "alpha-wins", "Agent Alpha Wins"
     elif winner == "Agent Beta":
-        css_class, icon, title = "beta-wins", "🏆", "Agent Beta Wins!"
+        css_class, title = "beta-wins", "Agent Beta Wins"
     elif winner == "Draw":
-        css_class, icon, title = "draw", "🤝", "It's a Draw!"
+        css_class, title = "draw", "It's a Draw"
     else:
         return ""  # undecided — handled by vote panel
 
     return (
         f'<div class="verdict-banner {css_class}">'
-        f'  <div class="verdict-title">{icon} {_esc(title)}</div>'
+        f'  <div class="verdict-title">{_esc(title)}</div>'
         f'  <div class="verdict-reason">{reason}</div>'
         f'</div>'
     )
@@ -302,12 +319,35 @@ def status_bar(state: str, text: str) -> str:
 # Gradio app
 # ══════════════════════════════════════════════════════════════════════════════
 
+FORCE_LIGHT_JS = """
+function() {
+    const removeDark = () => {
+        if (document.documentElement.classList.contains('dark')) {
+            document.documentElement.classList.remove('dark');
+        }
+        if (document.body.classList.contains('dark')) {
+            document.body.classList.remove('dark');
+        }
+    };
+    removeDark();
+    const observer = new MutationObserver((mutations) => {
+        mutations.forEach((mutation) => {
+            if (mutation.attributeName === 'class') {
+                removeDark();
+            }
+        });
+    });
+    observer.observe(document.documentElement, { attributes: true });
+    observer.observe(document.body, { attributes: true });
+}
+"""
+
 def build_app() -> gr.Blocks:
-    with gr.Blocks(title="Versus AI — Agentic Debater") as demo:
+    with gr.Blocks(title="Versus AI — Agentic Debater", js=FORCE_LIGHT_JS) as demo:
 
         # ── Header ────────────────────────────────────────────────────────────
         gr.HTML(
-            '<h1 class="title">⚔️ Versus AI</h1>'
+            '<h1 class="title">Versus AI</h1>'
             '<p class="subtitle">Two AI agents debate any topic — watch them think, research, and argue.</p>'
         )
 
@@ -319,7 +359,7 @@ def build_app() -> gr.Blocks:
                 scale=5,
                 container=True,
             )
-            start_btn = gr.Button("⚔️ Start Debate", variant="primary", scale=1, min_width=160)
+            start_btn = gr.Button("Start Debate", variant="primary", scale=1, min_width=160)
 
         # ── Status bar ────────────────────────────────────────────────────────
         status_html = gr.HTML(status_bar("idle", "Ready — enter a topic and click Start Debate."))
@@ -336,13 +376,13 @@ def build_app() -> gr.Blocks:
         with gr.Column(visible=False) as vote_col:
             gr.HTML(
                 '<div class="vote-panel">'
-                '<div class="vote-title">🗳️ The agents couldn\'t decide — cast your vote!</div>'
+                '<div class="vote-title">The agents couldn\'t decide — cast your vote</div>'
                 '</div>'
             )
             with gr.Row():
-                vote_alpha = gr.Button("🔵 Agent Alpha Won", variant="primary")
-                vote_draw  = gr.Button("🤝 Draw")
-                vote_beta  = gr.Button("🔴 Agent Beta Won", variant="secondary")
+                vote_alpha = gr.Button("Agent Alpha Won", variant="primary")
+                vote_draw  = gr.Button("Draw")
+                vote_beta  = gr.Button("Agent Beta Won", variant="secondary")
 
         user_verdict_html = gr.HTML(visible=False)
 
@@ -356,7 +396,7 @@ def build_app() -> gr.Blocks:
         async def run_debate(topic: str):
             if not topic.strip():
                 yield (
-                    status_bar("idle", "⚠ Please enter a debate topic."),
+                    status_bar("idle", "Please enter a debate topic."),
                     '<div class="transcript-wrap"></div>',
                     gr.update(visible=False),
                     gr.update(visible=False),
@@ -370,7 +410,7 @@ def build_app() -> gr.Blocks:
             current_turn = 0
 
             yield (
-                status_bar("active", "🔄 Connecting to MCP server and initialising agents…"),
+                status_bar("active", "Connecting to MCP server and initialising agents…"),
                 '<div class="transcript-wrap" id="transcript"></div>',
                 gr.update(value="", visible=False),
                 gr.update(visible=False),
@@ -401,7 +441,7 @@ def build_app() -> gr.Blocks:
                         verdict_block = render_verdict(evt.payload)
                         transcript_inner = "\n".join(transcript_blocks)
                         yield (
-                            status_bar("done", f"✅ Debate concluded — {winner} wins!"),
+                            status_bar("done", f"Debate concluded — {winner} wins"),
                             f'<div class="transcript-wrap" id="transcript">{transcript_inner}</div>',
                             gr.update(value=verdict_block, visible=True),
                             gr.update(visible=False),
@@ -412,7 +452,7 @@ def build_app() -> gr.Blocks:
                         # No winner — show vote panel
                         transcript_inner = "\n".join(transcript_blocks)
                         yield (
-                            status_bar("done", "🤔 No verdict reached — you decide!"),
+                            status_bar("done", "No verdict reached — you decide"),
                             f'<div class="transcript-wrap" id="transcript">{transcript_inner}</div>',
                             gr.update(value="", visible=False),
                             gr.update(visible=True),
@@ -430,7 +470,7 @@ def build_app() -> gr.Blocks:
                 turn_label = f"Turn {current_turn}/{MAX_TURNS}"
                 agent_label = evt.agent_name if evt.kind == "llm_call" else f"{evt.agent_name} → {evt.tool_name}"
                 yield (
-                    status_bar("active", f"🧠 {turn_label} · {agent_label}…"),
+                    status_bar("active", f"{turn_label} · {agent_label}…"),
                     f'<div class="transcript-wrap" id="transcript">{transcript_inner}</div>',
                     gr.update(visible=False),
                     gr.update(visible=False),
@@ -458,19 +498,19 @@ def build_app() -> gr.Blocks:
                 if choice == "Alpha":
                     banner = (
                         '<div class="verdict-banner alpha-wins">'
-                        '<div class="verdict-title">🏆 You voted: Agent Alpha Wins!</div>'
+                        '<div class="verdict-title">You voted: Agent Alpha Wins</div>'
                         '<div class="verdict-reason">Decided by the audience.</div></div>'
                     )
                 elif choice == "Beta":
                     banner = (
                         '<div class="verdict-banner beta-wins">'
-                        '<div class="verdict-title">🏆 You voted: Agent Beta Wins!</div>'
+                        '<div class="verdict-title">You voted: Agent Beta Wins</div>'
                         '<div class="verdict-reason">Decided by the audience.</div></div>'
                     )
                 else:
                     banner = (
                         '<div class="verdict-banner draw">'
-                        '<div class="verdict-title">🤝 You declared it a Draw!</div>'
+                        '<div class="verdict-title">You declared it a Draw</div>'
                         '<div class="verdict-reason">Both sides made compelling points.</div></div>'
                     )
                 return gr.update(value=banner, visible=True), gr.update(visible=False)
@@ -505,8 +545,8 @@ if __name__ == "__main__":
         show_error=True,
         css=CSS,
         theme=gr.themes.Base(
-            primary_hue="indigo",
-            neutral_hue="slate",
+            primary_hue="blue",
+            neutral_hue="zinc",
             font=gr.themes.GoogleFont("Inter"),
         ),
     )
