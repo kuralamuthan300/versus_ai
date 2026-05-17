@@ -1,0 +1,40 @@
+[project]
+name = "versus-ai"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.14"
+dependencies = [
+    "bs4>=0.0.2",
+    "crawl4ai>=0.8.6",
+    "ddgs>=9.14.4",
+    "dotenv>=0.9.9",
+    "fastmcp>=3.3.1",
+    "httpx>=0.28.1",
+    "mcp>=1.27.1",
+    "mcp-cli>=0.19",
+    "tavily>=1.1.0",
+]
+
+[tool.pyrefly]
+project-includes = [
+    "**/*.py",
+    "**/*.ipynb"
+]
+# Tells Pyrefly to use your local uv-managed virtual environment
+environment_strategy = "venv"
+venv_path = ".venv"
+
+# Ensures Pyrefly targets the correct Python version specified in your project
+target_version = "py312" 
+
+# Exclude sandboxed or temporary directories from analysis
+exclude = [
+    ".venv",
+    "sandbox",
+    "__pycache__"
+]
+
+[tool.pyrefly.environments]
+# Explicitly binds the interpreter path for the Antigravity extension
+default = "./.venv/bin/python"
